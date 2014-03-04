@@ -1,0 +1,84 @@
+options:
+	payitem.1: 64 diamond
+	payitem.2: 32 emerald
+	payitem.3: 12 blaze rod
+	payitem.4: 16 golden apple
+	payitem.5: 16 golden carrot
+	payitem.6: none
+
+#Wiadomosci#
+	msg.no.item: &cNie masz wszystki przedmiotow wymaganych do utworzenia frakcji ...
+	msg.noperm: &cBrak Uprawnien
+
+on command "/f create ":
+	if {faction.pay.%name of player%} is not set:
+		set {faction.pay.%name of player%} to false
+	if {faction.pay.%name of player%} is false:
+		if player doesn't have {@payitem.1}:
+			send "{@msg.no.item}"
+			cancel event
+			stop
+		if player doesn't have {@payitem.2}:
+			send "{@msg.no.item}"
+			cancel event
+			stop
+		if player doesn't have {@payitem.3}:
+			send "{@msg.no.item}"
+			cancel event
+			stop
+		if player doesn't have {@payitem.4}:
+			send "{@msg.no.item}"
+			cancel event
+			stop
+		if player doesn't have {@payitem.5}:
+			send "{@msg.no.item}"
+			cancel event
+			stop
+		if player doesn't have {@payitem.6}:
+			send "{@msg.no.item}"
+			cancel event
+			stop
+		remove {@payitem.1} from player
+		remove {@payitem.2} from player
+		remove {@payitem.3} from player
+		remove {@payitem.4} from player
+		remove {@payitem.5} from player
+		remove {@payitem.6} from player
+		set {faction.pay.%name of player%} to true
+
+
+
+
+command /status [<text>]:
+	trigger:
+		if player doesn't have permission "status.pay":
+			send "{@msg.noperm}"
+			stop
+		if arg is not set:
+			send "Podaj nazwe gracza"
+			stop
+		if {faction.pay.%arg%} is not set:
+			set {faction.pay.%arg%} to false
+		if {faction.pay.%arg%} is false:
+			send "&cGracz &6%arg% &cnie zaplacil"
+			stop
+		if {faction.pay.%arg%} is true:
+			send "&2Gracz &6%arg% &2zaplacil"
+			stop
+		
+command /przedmioty:
+	trigger:
+		send "&2&LPrzedmioty wymagane do utworzenia Frakcji"
+		send "{@payitem.1}"
+		send "{@payitem.2}"
+		send "{@payitem.3}"
+		send "{@payitem.4}"
+		send "{@payitem.5}"
+		send "{@payitem.6}"
+
+
+on command "/f disband ":
+	set {faction.pay.%name of player%} to false
+
+
+
